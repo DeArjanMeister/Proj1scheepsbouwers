@@ -13,23 +13,17 @@ public class Offertemaker {
 
     ArrayList<ExtraOpties> gekozenExtraOpties = new ArrayList<>();
     ArrayList<EssentieleOpties> essentieleOpties = new ArrayList<>();
-    ArrayList<EssentieleOpties> randomKorting = new ArrayList<>()
+    ArrayList<EssentieleOpties> randomKorting = new ArrayList<>();
     ArrayList<ExtraOpties> extraOpties = new ArrayList<>();
     ArrayList<EssentieleOpties> gekozenEssentieleOpties = new ArrayList<>();
-
-//    public Offertemaker(String naam, double prijs) {
-//        this.naam = naam;
-//        this.prijs = prijs;
-//    }
 
     public void offertemaken() {
         EssentieleOptiesToevoegen();
         ExtraOptiesToevoegen();
         printOfferte();
-
     }
 
-    private void EssentieleOptiesToevoegen() {
+    public void EssentieleOptiesToevoegen() {
         EssentieleOpties romp = new EssentieleOpties("Romp", 2000.0);
         EssentieleOpties zeilen = new EssentieleOpties("Zeilen", 3000.0);
         EssentieleOpties roer = new EssentieleOpties("Roer", 1000.0);

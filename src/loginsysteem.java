@@ -23,12 +23,13 @@ public class loginsysteem {
         loadKlanten();
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to the Login System!\n");
+        System.out.println("Welkom bij onze offertemaker!\n");
         boolean done = false;
         while (!done) {
-            System.out.println("Please select an option:");
-            System.out.println("1. Register a new user");
+            System.out.println("Kies een optie:");
+            System.out.println("1. Registreren");
             System.out.println("2. Log in");
+            System.out.println("3. Admin");
             System.out.println("3. Exit\n");
 
             int choice = scanner.nextInt();
@@ -42,6 +43,9 @@ public class loginsysteem {
                     login(scanner);
                     done = true;
                     break;
+                case 3:
+                    admin(scanner);
+                    done = true;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
@@ -67,44 +71,62 @@ public class loginsysteem {
             System.out.println("Failed to save users: " + e.getMessage());
         }
     }
+    public static void admin(Scanner scanner){
 
+        String adminUsername = "admin";
+        String adminPassword = "admin";
+        // prompt user for username and password
+        System.out.print("Geef gebruikersnaam: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter wachtwoord: ");
+        String password = scanner.nextLine();
+
+        // check if entered username and password match admin credentials
+        if (username.equals(adminUsername) && password.equals(adminPassword)) {
+            System.out.println("Login successvol.");
+            AdminOfferte offerte = new AdminOfferte();
+            offerte.offertemaken();
+        } else {
+            System.out.println("Niet goed, probeer opnieuw!");
+        }
+    }
     public static void registreerKlant(Scanner scanner) {
-        System.out.println("Please enter a username:");
+        System.out.println("Geef een gebruikersnaam:");
         String username = scanner.nextLine();
 
         // Check if the username already exists
         for (Klant user : users) {
             if (user.getUsername().equals(username)) {
-                System.out.println("Username already exists. Please choose another one.");
+                System.out.println("Gebruikersnaam bestaat al. Geef een ander.");
                 return;
             }
         }
 
-        System.out.println("Please enter a password:");
+        System.out.println("Geef een sterk wachtwoord:");
         String password = scanner.nextLine();
 
         users.add(new Klant(username, password));
-        System.out.println("User registered successfully!");
+        System.out.println("Registratie succesvol");
     }
 
     public static void login(Scanner scanner) {
         boolean loggedIn = false;
         while (!loggedIn) {
-            System.out.println("Please enter your username:");
+            System.out.println("Geef je gebruikersnaam:");
             String username = scanner.nextLine();
 
-            System.out.println("Please enter your password:");
+            System.out.println("Geef je wachtwoord:");
             String password = scanner.nextLine();
 
             for (Klant user : users) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                    System.out.println("Login successful!");
+                    System.out.println("Login successvol!");
                     loggedIn = true;
                     break;
                 }
             }
             if (!loggedIn) {
-                System.out.println("Invalid username or password. Please try again.");
+                System.out.println("Niet goed, probeer opnieuw!");
             }
         }
     }
