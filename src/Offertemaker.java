@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Offertemaker {
+    private int beginPrijs = 10000;
+
 public void offertemaken(){
     EssentieleOptiesToevoegen();
     ExtraOptiesToevoegen();
@@ -23,7 +25,7 @@ private void EssentieleOptiesToevoegen(){
     EssentieleOpties zwaardKorting = new EssentieleOpties("Zwaard met miliekorting", 1200.0 * 0.95);
     EssentieleOpties stuurKorting = new EssentieleOpties("Stuur met miliekorting", 500.0 * 0.95);
 
-    ArrayList<Optie> essentieleOpties = new ArrayList<>();
+    ArrayList<EssentieleOpties> essentieleOpties = new ArrayList<>();
     essentieleOpties.add(romp);
     essentieleOpties.add(rompKorting);
     essentieleOpties.add(zeilen);
@@ -38,7 +40,7 @@ private void EssentieleOptiesToevoegen(){
     essentieleOpties.add(stuurKorting);
 
     Scanner input = new Scanner(System.in);
-    ArrayList<Optie> gekozenOpties = new ArrayList<>();
+    ArrayList<EssentieleOpties> gekozenOpties = new ArrayList<>();
     while (true) {
         System.out.println("Kies een optie:");
         for (int i = 0; i < essentieleOpties.size(); i++) {
@@ -53,7 +55,7 @@ private void EssentieleOptiesToevoegen(){
 
         if (keuze > 0 && keuze <= essentieleOpties.size()) {
             Optie gekozenOptie = essentieleOpties.get(keuze-1);
-            gekozenOpties.add(gekozenOptie);
+            gekozenOpties.add((EssentieleOpties) gekozenOptie);
             System.out.println("Optie '" + gekozenOptie.getNaam() + "' is toegevoegd.");
         } else {
             System.out.println("Ongeldige keuze. Probeer opnieuw.");
@@ -89,7 +91,7 @@ private void ExtraOptiesToevoegen(){
     ExtraOpties marifoonKorting = new ExtraOpties("Marifoon met miliekorting", 600.0);
     ExtraOpties zonnedekKorting = new ExtraOpties("Zonnedek met miliekorting", 1000.0);
 
-    ArrayList<Optie> extraOpties = new ArrayList<>();
+    ArrayList<ExtraOpties> extraOpties = new ArrayList<>();
     extraOpties.add(anker);
     extraOpties.add(ankerKorting);
     extraOpties.add(navigatie);
@@ -110,28 +112,63 @@ private void ExtraOptiesToevoegen(){
     extraOpties.add(marifoonKorting);
     extraOpties.add(zonnedek);
     extraOpties.add(zonnedekKorting);
+
+    ArrayList<ExtraOpties> gekozenOpties = new ArrayList<>();
+    while (true) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Kies een optie:");
+        for (int i = 0; i < extraOpties.size(); i++) {
+            System.out.println((i+1) + ". " + extraOpties.get(i).getNaam() + " - " + extraOpties.get(i).getPrijs());
+        }
+        System.out.println("0. Stop met kiezen");
+
+        int keuze = input.nextInt();
+        if (keuze == 0) {
+            break;
+        }
+
+        if (keuze > 0 && keuze <= extraOpties.size()) {
+            Optie gekozenOptie = extraOpties.get(keuze-1);
+            gekozenOpties.add((ExtraOpties) gekozenOptie);
+            System.out.println("Optie '" + gekozenOptie.getNaam() + "' is toegevoegd.");
+        } else {
+            System.out.println("Ongeldige keuze. Probeer opnieuw.");
+        }
+    }
 }
 
-//private void OfferteMaken(){
-//    Boot boot = new Boot("MotorBoot 1", 10000.0, getEssentieleOpties, extraOpties);
-//
-//    // Maak klant en voeg opties toe
-//    Klant klant = new Klant();
-//
-//    // Bereken totaalprijs en print offerte
-//    double totaalPrijs = klant.berekenTotaalPrijs(boot);
-//    System.out.println("Offerte voor " + boot.getNaam() + ":");
-//    System.out.println("- Standaardprijs: €" + boot.getStandaardPrijs());
-//    System.out.println("- Essentiële opties:");
-//    for (Optie optie : boot.getEssentiëleOpties()) {
-//        System.out.println("  - " + optie.getNaam() + ": €" + optie.getPrijs());
-//    }
-//    System.out.println("- Extra opties:");
-//    for (Optie optie : boot.getExtraOpties()) {
-//        System.out.println("  - " + optie.getNaam() + ": €" + optie.getPrijs());
-//    }
-//    System.out.println("- Geselecteerde opties:");
-//    for (Optie optie : klant.getGeselecteerdeOpties())
-//}
+    private void printGekozenEssentieleOpties(ArrayList<EssentieleOpties> gekozenEssentieleOpties) {
+        System.out.println("Gekozen extra opties:");
+        for (EssentieleOpties optie : gekozenEssentieleOpties) {
+            System.out.println(optie.getNaam() + " - " + optie.getPrijs());
+        }
+    }
+    private void printGekozenExtraOpties(ArrayList<ExtraOpties> gekozenExtraOpties) {
+        System.out.println("Gekozen extra opties:");
+        for (ExtraOpties optie : gekozenExtraOpties) {
+            System.out.println(optie.getNaam() + " - " + optie.getPrijs());
+        }
+    }
+
+private void OfferteMaken(){
+
+    // Maak klant en voeg opties toe
+    Klant klant = new Klant();
+
+    // Bereken totaalprijs en print offerte
+    double totaalPrijs = klant.berekenTotaalPrijs(boot);
+    System.out.println("Offerte voor " + boot.getNaam() + ":");
+    System.out.println("- Standaardprijs: €" + boot.getStandaardPrijs());
+    System.out.println("- Essentiële opties:");
+    for (Optie optie : boot.getEssentiëleOpties()) {
+        System.out.println("  - " + optie.getNaam() + ": €" + optie.getPrijs());
+    }
+    System.out.println("- Extra opties:");
+    for (Optie optie : boot.getExtraOpties()) {
+        System.out.println("  - " + optie.getNaam() + ": €" + optie.getPrijs());
+    }
+    System.out.println("- Geselecteerde opties:");
+    for (Optie optie : klant.getGeselecteerdeOpties())
+}
 
 }

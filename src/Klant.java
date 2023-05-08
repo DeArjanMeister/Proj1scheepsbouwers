@@ -1,28 +1,20 @@
-import java.util.ArrayList;
-
 public class Klant {
-    private ArrayList<Optie> geselecteerdeOpties = new ArrayList<>();
+        private String username;
+        private String password;
 
-    public void voegOptieToe(Optie optie) {
-        geselecteerdeOpties.add(optie);
+        private String klantType;
+
+        public Klant(String username, String password, String klantType) {
+            this.username = username;
+            this.password = password;
+        }
+
+    public String getUsername() {
+            return username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
     }
-
-    public void verwijderOptie(Optie optie) {
-        geselecteerdeOpties.remove(optie);
-    }
-
-    public ArrayList<Optie> getGeselecteerdeOpties() {
-        return geselecteerdeOpties;
-    }
-
-//    public double berekenTotaalPrijs(Boot boot) {
-//        double totaalPrijs = boot.berekenPrijs();
-//
-//        // Bereken prijs van geselecteerde opties
-//        for (Optie optie : geselecteerdeOpties) {
-//            totaalPrijs += optie.getPrijs();
-//        }
-//
-//        return totaalPrijs;
-//    }
 }
