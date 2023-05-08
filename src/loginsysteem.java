@@ -14,19 +14,22 @@ public class loginsysteem {
 
     private static List<Klant> users = new ArrayList<>();
 
-    public void loginstart()
+    public static List<Klant> getUsers() {
+        return users;
+    }
 
-    {
+
+    public static void loginstart() {
         loadKlanten();
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to the Login System!");
+        System.out.println("Welcome to the Login System!\n");
         boolean done = false;
         while (!done) {
             System.out.println("Please select an option:");
             System.out.println("1. Register a new user");
             System.out.println("2. Log in");
-            System.out.println("3. Exit");
+            System.out.println("3. Exit\n");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -37,20 +40,18 @@ public class loginsysteem {
                     break;
                 case 2:
                     login(scanner);
-                    break;
-                case 3:
                     done = true;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-        saveUsers();
-        System.out.println("Goodbye!");
+        saveKlanten();
+        System.out.println("\nGoodbye!");
     }
 
 
-    private static void loadKlanten() {
+    public static void loadKlanten() {
         try (FileReader reader = new FileReader(FILENAME)) {
             users = gson.fromJson(reader, new TypeToken<List<Klant>>() {
             }.getType());
@@ -59,7 +60,7 @@ public class loginsysteem {
         }
     }
 
-    private static void saveUsers() {
+    public static void saveKlanten() {
         try (FileWriter writer = new FileWriter(FILENAME)) {
             gson.toJson(users, writer);
         } catch (IOException e) {
@@ -67,7 +68,7 @@ public class loginsysteem {
         }
     }
 
-    private static void registreerKlant(Scanner scanner) {
+    public static void registreerKlant(Scanner scanner) {
         System.out.println("Please enter a username:");
         String username = scanner.nextLine();
 
@@ -82,37 +83,30 @@ public class loginsysteem {
         System.out.println("Please enter a password:");
         String password = scanner.nextLine();
 
-        System.out.println("Geef je klanttype aan(bedrijf/particulier/overheid: ");
-        String klantType = "";
-
-        while (true) {
-            klantType = scanner.nextLine();
-            if (klantType.equals("bedrijf") || klantType.equals("particulier") || klantType.equals("overheid")) {
-                break;
-            } else {
-                System.out.println("Ongeldige invoer. Kies uit bedrijf, particulier of overheid.");
-            }
-        }
-
-        users.add(new Klant(username, password, klantType));
+        users.add(new Klant(username, password));
         System.out.println("User registered successfully!");
     }
 
-    private static void login(Scanner scanner) {
-        System.out.println("Please enter your username:");
-        String username = scanner.nextLine();
+    public static void login(Scanner scanner) {
+        boolean loggedIn = false;
+        while (!loggedIn) {
+            System.out.println("Please enter your username:");
+            String username = scanner.nextLine();
 
-        System.out.println("Please enter your password:");
-        String password = scanner.nextLine();
+            System.out.println("Please enter your password:");
+            String password = scanner.nextLine();
 
-        for (Klant user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                System.out.println("Login successful!");
-                return;
+            for (Klant user : users) {
+                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                    System.out.println("Login successful!");
+                    loggedIn = true;
+                    break;
+                }
+            }
+            if (!loggedIn) {
+                System.out.println("Invalid username or password. Please try again.");
             }
         }
-
-        System.out.println("Invalid username or password. Please try again.");
     }
 }
 
